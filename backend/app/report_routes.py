@@ -1,11 +1,11 @@
 """Download reports only from complete, persisted forecast results."""
 
 import logging
-import re
 
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import Response
 
+from app.services.downloads import report_content_disposition
 from app.services.reporting import PDF_TYPE, XLSX_TYPE, Report, export_pdf, export_xlsx
 from app.services.storage import get_february_forecasts, get_forecast
 
@@ -41,17 +41,18 @@ def _download(report: Report, extension: str) -> Response:
         raise HTTPException(
             status_code=503, detail="Экспорт временно недоступен на сервере"
         ) from error
-    identifier = (
-        "february-2026"
-        if report.monthly
-        else re.sub(r"[^A-Za-z0-9_-]", "", report.runs[0].run_id)[:80]
+    first = report.runs[0]
+    disposition = report_content_disposition(
+        first.turbine_id,
+        extension,
+        start_date=None if report.monthly else first.forecast[0].timestamp.date(),
+        horizon_hours=None if report.monthly else first.horizon_hours,
     )
-    filename = f"windflow-turbine-{report.runs[0].turbine_id}-{identifier}.{extension}"
     return Response(
         content=content,
         media_type=PDF_TYPE if extension == "pdf" else XLSX_TYPE,
         headers={
-            "Content-Disposition": f'attachment; filename="{filename}"',
+            "Content-Disposition": disposition,
             "X-Content-Type-Options": "nosniff",
             "Cache-Control": "no-store",
         },

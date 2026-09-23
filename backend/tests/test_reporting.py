@@ -1,6 +1,8 @@
 import io
 import re
 import zipfile
+from datetime import date
+from urllib.parse import unquote
 
 import pytest
 from fastapi.testclient import TestClient
@@ -8,10 +10,26 @@ from openpyxl import load_workbook
 from pypdf import PdfReader
 
 from app.main import app
+from app.services.downloads import report_content_disposition
 from app.services.reporting import PDF_TYPE, SHEET_NAMES, XLSX_TYPE
 from app.services.storage import get_forecast, save_forecast
 
 client = TestClient(app)
+
+
+@pytest.mark.parametrize("extension", ["pdf", "xlsx", "csv"])
+def test_report_download_names_are_readable_and_browser_safe(extension):
+    disposition = report_content_disposition(
+        1, extension, start_date=date(2026, 2, 1), horizon_hours=48
+    )
+    assert (
+        f'filename="WindFlow - Turbine 1 - Forecast from 2026-02-01 - 48h.{extension}"'
+        in disposition
+    )
+    encoded_name = disposition.split("filename*=UTF-8''", 1)[1]
+    assert (
+        unquote(encoded_name) == f"WindFlow — Турбина 1 — Прогноз с 01.02.2026 — 48 ч.{extension}"
+    )
 
 
 def create_run(turbine=1, horizon=24, issue="2026-01-29"):

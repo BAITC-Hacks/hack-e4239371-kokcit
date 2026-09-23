@@ -21,6 +21,7 @@ from app.schemas import (
     ForecastRequest,
     ForecastSummary,
 )
+from app.services.downloads import report_content_disposition
 from app.services.storage import (
     february_forecast_to_csv,
     forecast_to_csv,
@@ -38,6 +39,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["Content-Disposition"],
 )
 
 
@@ -152,9 +154,7 @@ def export_february_forecast(turbine_id: int = Query(ge=1, le=2)) -> Response:
         content=content,
         media_type="text/csv; charset=utf-8",
         headers={
-            "Content-Disposition": (
-                f'attachment; filename="forecast-february-2026-turbine-{turbine_id}.csv"'
-            )
+            "Content-Disposition": report_content_disposition(turbine_id, "csv"),
         },
     )
 
@@ -180,7 +180,14 @@ def export_forecast(run_id: str) -> Response:
     return Response(
         content=forecast_to_csv(result),
         media_type="text/csv; charset=utf-8",
-        headers={"Content-Disposition": f'attachment; filename="forecast-{run_id}.csv"'},
+        headers={
+            "Content-Disposition": report_content_disposition(
+                result.turbine_id,
+                "csv",
+                start_date=result.forecast[0].timestamp.date(),
+                horizon_hours=result.horizon_hours,
+            )
+        },
     )
 
 
