@@ -260,6 +260,25 @@ def forecast_to_csv(result: ForecastAccepted) -> str:
     return output.getvalue()
 
 
+def get_february_forecasts(turbine_id: int) -> list[ForecastAccepted]:
+    """Read saved daily runs; Report validates completeness and model consistency."""
+    initialize_database()
+    with connect() as connection:
+        rows = connection.execute(
+            """
+            SELECT run_id FROM forecast_runs
+            WHERE turbine_id = ? AND horizon_hours = 24
+              AND issue_date BETWEEN '2026-01-31' AND '2026-02-27'
+            ORDER BY issue_date
+            """,
+            (turbine_id,),
+        ).fetchall()
+    results = [get_forecast(row["run_id"]) for row in rows]
+    if any(result is None for result in results):
+        raise ValueError("Прогнозы обновились во время экспорта. Повторите запрос.")
+    return results
+
+
 def february_forecast_to_csv(turbine_id: int) -> str | None:
     initialize_database()
     with connect() as connection:

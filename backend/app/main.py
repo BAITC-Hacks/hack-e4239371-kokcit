@@ -12,6 +12,7 @@ from fastapi.staticfiles import StaticFiles
 from app.agent import describe_pipeline, run_february, run_forecast
 from app.config import settings
 from app.jobs import get_job, submit
+from app.report_routes import router as reports_router
 from app.schemas import (
     AgentStep,
     FebruaryForecastResponse,
@@ -182,6 +183,8 @@ def export_forecast(run_id: str) -> Response:
         headers={"Content-Disposition": f'attachment; filename="forecast-{run_id}.csv"'},
     )
 
+
+app.include_router(reports_router)
 
 if settings.frontend_dir.exists():
     app.mount("/", StaticFiles(directory=settings.frontend_dir, html=True), name="frontend")

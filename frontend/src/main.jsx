@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { Activity, CalendarRange, CheckCircle2, Circle, CircleX, Cloud, Database, Download, Gauge, LoaderCircle, RefreshCw, Thermometer, Wind } from "lucide-react";
+import { Activity, CalendarRange, CheckCircle2, Circle, CircleX, Cloud, Database, Download, FileSpreadsheet, FileText, Gauge, LoaderCircle, RefreshCw, Thermometer, Wind } from "lucide-react";
 import { Area, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import "./styles.css";
 import QualityReport from "./QualityReport";
@@ -31,8 +31,8 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [batchMessage, setBatchMessage] = useState("");
-  const [exportUrl, setExportUrl] = useState("");
   const [dataMode, setDataMode] = useState("auto");
+  const [exporting, setExporting] = useState("");
   const [job, setJob] = useState(null);
   const [health, setHealth] = useState(null);
   const [tab, setTab] = useState("forecast");
@@ -79,7 +79,7 @@ function App() {
 
   const runCalculation = async (february = false) => {
     setLoading(true); setError(""); setBatchMessage(""); setTab("forecast"); setJob(null);
-    setResult(null); setExportUrl("");
+    setResult(null);
     try {
       let current = await api(february ? "/jobs/february" : "/jobs", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -96,7 +96,6 @@ function App() {
       if (current.status === "failed") throw new Error(current.error || "Расчёт не завершён");
       const data = current.result;
       setResult(february ? { ...data, issue_date: "01–28.02.2026", horizon_hours: 672 } : data);
-      setExportUrl(february ? `${API}/forecasts/february/export.csv?turbine_id=${data.turbine_id}` : `${API}/forecasts/${data.run_id}/export.csv`);
       if (february) setBatchMessage(`Сформировано ${data.generated_runs} ежедневных прогнозов и ${data.forecast.length} уникальных часов.`);
       await loadHistory();
     } catch (requestError) { setError(requestError.message); }
@@ -108,7 +107,9 @@ function App() {
     try {
       const data = await api(`/forecasts/${runId}`);
       setResult(data);
-      setExportUrl(`${API}/forecasts/${runId}/export.csv`);
+      setTurbine(data.turbine_id);
+      setIssueDate(data.issue_date);
+      setHorizon(data.horizon_hours);
     } catch (requestError) { setError(requestError.message); }
     finally { setLoading(false); }
   };
@@ -120,6 +121,22 @@ function App() {
     confidenceRange: [Math.round(point.confidence_low * 1000) / 10, Math.round(point.confidence_high * 1000) / 10],
   })) || [], [result]);
 
+  const summary = useMemo(() => {
+    if (!result?.forecast?.length) return null;
+    const points = result.forecast;
+    const peakPoint = points.reduce((best, point) => point.normalized_power > best.normalized_power ? point : best, points[0]);
+    const averagePower = points.reduce((sum, point) => sum + point.normalized_power, 0) / points.length;
+    const averageTemperature = points.reduce((sum, point) => sum + point.temperature_c, 0) / points.length;
+    const lowOutputHours = points.filter((point) => point.normalized_power < 0.1).length;
+    return {
+      averagePower,
+      averageTemperature,
+      lowOutputHours,
+      peakPoint,
+      text: `На горизонте ${points.length} ч средняя ожидаемая мощность составляет ${(averagePower * 100).toFixed(1)}% от номинала. Максимум ${(peakPoint.normalized_power * 100).toFixed(1)}% ожидается ${formatHour(peakPoint.timestamp)}. Средняя скорость ветра — ${(points.reduce((sum, point) => sum + point.wind_speed_100m_ms, 0) / points.length).toFixed(1)} м/с.`,
+    };
+  }, [result]);
+
   const peak = result ? Math.max(...result.forecast.map((point) => point.normalized_power)) : 0;
   const averageWind = result ? result.forecast.reduce((sum, point) => sum + point.wind_speed_100m_ms, 0) / result.forecast.length : 0;
   const metricKey = horizon === 48 ? "day_2" : "day_1";
@@ -128,6 +145,40 @@ function App() {
   const sourceNames = { open_meteo: "Open-Meteo · получено по сети", cache: "Сохранённый архив погоды", bundled_archive: "Архив погоды из комплекта демо", provided: "Подготовленный архив", mixed: "Сеть и сохранённый архив", unknown: "Источник не записан" };
   const completedSteps = shownSteps.filter((step) => step.status === "completed").length;
   const jobProgress = job?.total > 1 ? Math.round((job.progress / job.total) * 100) : shownSteps.length ? Math.round((completedSteps / shownSteps.length) * 100) : 0;
+  const reportUrls = result?.run_id ? {
+    csv: `${API}/forecasts/${result.run_id}/export.csv`,
+    xlsx: `${API}/forecasts/${result.run_id}/export.xlsx`,
+    pdf: `${API}/forecasts/${result.run_id}/report.pdf`,
+  } : result ? {
+    csv: `${API}/forecasts/february/export.csv?turbine_id=${result.turbine_id}`,
+    xlsx: `${API}/forecasts/february/export.xlsx?turbine_id=${result.turbine_id}`,
+    pdf: `${API}/forecasts/february/report.pdf?turbine_id=${result.turbine_id}`,
+  } : null;
+
+  const downloadReport = async (format) => {
+    if (!reportUrls?.[format]) return;
+    setExporting(format); setError("");
+    try {
+      const response = await fetch(reportUrls[format]);
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}));
+        throw new Error(payload.detail || `Не удалось сформировать ${format.toUpperCase()}`);
+      }
+      const blob = await response.blob();
+      const disposition = response.headers.get("content-disposition") || "";
+      const encodedName = disposition.match(/filename\*=UTF-8''([^;]+)/i)?.[1];
+      const plainName = disposition.match(/filename="?([^";]+)"?/i)?.[1];
+      const filename = encodedName ? decodeURIComponent(encodedName) : plainName || `windflow-report.${format}`;
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url; anchor.download = filename; anchor.click();
+      URL.revokeObjectURL(url);
+    } catch (downloadError) {
+      setError(downloadError.message);
+    } finally {
+      setExporting("");
+    }
+  };
 
   return (
     <main className="app-shell">
@@ -196,6 +247,10 @@ function App() {
             {result && <>
               <div className="result-context"><span><Cloud size={15} />{sourceNames[result.data_source] || result.data_source}</span><span><Database size={15} />{result.model_version} · UTC+5</span></div>
               {result.quality_warnings?.map((warning) => <div className="alert warning" key={warning}>{warning}</div>)}
+              <section className="decision-summary">
+                <div><span className="eyebrow">Краткий итог</span><h2>Прогноз готов для планирования</h2><p>{summary.text}</p></div>
+                <dl><div><dt>Средняя мощность</dt><dd>{(summary.averagePower * 100).toFixed(1)}%</dd></div><div><dt>Низкая выработка</dt><dd>{summary.lowOutputHours} ч</dd></div><div><dt>Средняя температура</dt><dd>{summary.averageTemperature.toFixed(1)} °C</dd></div></dl>
+              </section>
               <section className="metrics">
                 <article><Gauge /><div><span>Ожидаемая энергия</span><strong>{result.expected_normalized_energy.toFixed(2)}</strong><small>норм. турбино-часов</small></div></article>
                 <article><Activity /><div><span>Пиковая мощность</span><strong>{(peak * 100).toFixed(1)}%</strong><small>от номинала</small></div></article>
@@ -204,7 +259,7 @@ function App() {
               </section>
 
               <section className="chart-section">
-                <div className="section-heading"><div><h2>Прогноз мощности</h2><p>Турбина {result.turbine_id}, выпуск {result.issue_date}</p></div><a className="download" href={exportUrl}><Download size={17} /> CSV</a></div>
+                <div className="section-heading"><div><h2>Прогноз мощности</h2><p>Турбина {result.turbine_id}, выпуск {result.issue_date}</p></div><div className="export-actions"><button className="download secondary" onClick={() => downloadReport("pdf")} disabled={Boolean(exporting)} title="Скачать управленческий отчёт в PDF">{exporting === "pdf" ? <LoaderCircle className="spin" size={17} /> : <FileText size={17} />} PDF</button><button className="download secondary" onClick={() => downloadReport("xlsx")} disabled={Boolean(exporting)} title="Скачать аналитическую книгу Excel">{exporting === "xlsx" ? <LoaderCircle className="spin" size={17} /> : <FileSpreadsheet size={17} />} Excel</button><button className="download" onClick={() => downloadReport("csv")} disabled={Boolean(exporting)} title="Скачать почасовые данные CSV">{exporting === "csv" ? <LoaderCircle className="spin" size={17} /> : <Download size={17} />} CSV</button></div></div>
                 <div className="chart-wrap"><ResponsiveContainer width="100%" height="100%"><ComposedChart data={chartData} margin={{ top: 10, right: 8, bottom: 8, left: 0 }}>
                   <CartesianGrid stroke="#e5eaec" vertical={false} /><XAxis dataKey="label" tick={{ fontSize: 11 }} minTickGap={32} /><YAxis yAxisId="power" domain={[0, 100]} unit="%" tick={{ fontSize: 11 }} /><YAxis yAxisId="wind" orientation="right" tick={{ fontSize: 11 }} unit=" м/с" /><Tooltip /><Legend />
                   <Area yAxisId="power" type="monotone" dataKey="confidenceRange" stroke="none" fill="#dce9e6" name="Оценочный диапазон ошибки" /><Line yAxisId="power" type="monotone" dataKey="powerPercent" stroke="#087f6c" strokeWidth={2.5} dot={false} name="Мощность, %" /><Line yAxisId="wind" type="monotone" dataKey="wind_speed_100m_ms" stroke="#3378a6" strokeWidth={1.7} dot={false} name="Ветер, м/с" />

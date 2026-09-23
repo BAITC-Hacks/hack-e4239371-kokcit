@@ -131,7 +131,20 @@ def run_forecast(request: ForecastRequest, on_update=None, weather=None) -> Fore
         model_version=MODEL_VERSION,
         timing_note=weather.attrs.get("timing_note", TIMING_NOTE),
         issue_at=provenance["issue_at"],
-        weather_provenance={**provenance, "source": weather.attrs.get("source", "provided")},
+        weather_provenance={
+            **provenance,
+            "source": weather.attrs.get("source", "provided"),
+            **{
+                key: weather.attrs[key]
+                for key in (
+                    "snapshot_sha256",
+                    "snapshot_downloaded_at",
+                    "provider_url",
+                    "manifest_verified",
+                )
+                if key in weather.attrs
+            },
+        },
         model_artifacts=[bundle["artifact"] for bundle in bundles],
     )
     with trace.stage("persist") as step:

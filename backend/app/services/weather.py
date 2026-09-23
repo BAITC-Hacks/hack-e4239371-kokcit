@@ -68,6 +68,32 @@ def _read_snapshot(path: Path, start: str, end: str) -> pd.DataFrame | None:
         return None
 
 
+def _bundled_provenance(path: Path) -> dict | None:
+    """Match the snapshot to its manifest before trusting a bundled archive."""
+    manifest_name = "february_manifest.json" if "february" in path.name else "manifest.json"
+    try:
+        manifest = json.loads((path.parent / manifest_name).read_text(encoding="utf-8"))
+        record = next(item for item in manifest["files"] if item["path"] == path.name)
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        if digest != record["sha256"]:
+            return None
+        if "february" in path.name and (
+            manifest.get("archive_kind") != "fixed_lead_offsets"
+            or manifest.get("timezone") != "Asia/Almaty"
+            or manifest.get("wind_speed_unit") != "kmh"
+            or record.get("hours") != 672
+        ):
+            return None
+        return {
+            "snapshot_sha256": digest,
+            "snapshot_downloaded_at": record.get("downloaded_at", manifest.get("downloaded_at")),
+            "provider_url": manifest["source"],
+            "manifest_verified": True,
+        }
+    except (OSError, ValueError, KeyError, TypeError, StopIteration):
+        return None
+
+
 def fetch_archived_weather(
     latitude: float,
     longitude: float,
@@ -93,18 +119,27 @@ def fetch_archived_weather(
     candidates = [cache]
     for turbine_id, coordinates in TURBINES.items():
         if coordinates == (latitude, longitude):
-            candidates += [settings.demo_dir / f"weather_turbine_{turbine_id}.csv"]
+            candidates += [
+                settings.demo_dir / f"weather_february_turbine_{turbine_id}.csv",
+                settings.demo_dir / f"weather_turbine_{turbine_id}.csv",
+            ]
     if mode != "live":
         for path in candidates:
             frame = _read_snapshot(path, start, end)
             if frame is not None:
                 source = "bundled_archive" if path.parent == settings.demo_dir else "cache"
+                provenance = _bundled_provenance(path) if source == "bundled_archive" else {}
+                if provenance is None:
+                    if on_event:
+                        on_event("Сохранённый архив не прошёл проверку происхождения или SHA-256")
+                    continue
                 frame.attrs.update(
                     source=source,
                     timing_note=TIMING_NOTE,
                     attempts=0,
                     archive_kind="fixed_lead_offsets",
                     publication_time_verified=False,
+                    **provenance,
                 )
                 if on_event:
                     on_event(f"Загружен сохранённый архив: {len(frame)} часов")
