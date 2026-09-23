@@ -1,0 +1,3 @@
+# Weather manifests verify exact CSV bytes on Windows, Linux and in ZIP archives.
+backend/demo/*.csv text eol=lf
+*.joblib binary

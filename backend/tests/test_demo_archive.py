@@ -9,6 +9,15 @@ from app.services.weather import WeatherUnavailable, fetch_archived_weather
 from scripts.prepare_demo import prepare_archive
 
 
+@pytest.mark.parametrize("manifest_name", ["manifest.json", "february_manifest.json"])
+def test_bundled_snapshot_bytes_match_manifest_on_every_platform(manifest_name):
+    manifest = json.loads((settings.demo_dir / manifest_name).read_text(encoding="utf-8"))
+    for record in manifest["files"]:
+        content = (settings.demo_dir / record["path"]).read_bytes()
+        assert b"\r\n" not in content, "Bundled weather must retain LF line endings"
+        assert hashlib.sha256(content).hexdigest() == record["sha256"]
+
+
 @pytest.mark.parametrize("turbine", [1, 2])
 def test_bundled_real_february_archive(turbine):
     frame = fetch_archived_weather(*TURBINES[turbine], "2026-02-01", "2026-02-28", mode="offline")

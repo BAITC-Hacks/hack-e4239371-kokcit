@@ -5,12 +5,12 @@
     {
       "path": "weather_turbine_1.csv",
       "hours": 744,
-      "sha256": "1bc96b596b17dc06ea3816980b988951dfabe1628966f0b477f76d9dcd4d43e3"
+      "sha256": "fa8483af14ca52902b19378cc5137747c8881acc7a6913871b2cbf512fba85b4"
     },
     {
       "path": "weather_turbine_2.csv",
       "hours": 744,
-      "sha256": "1bc96b596b17dc06ea3816980b988951dfabe1628966f0b477f76d9dcd4d43e3"
+      "sha256": "fa8483af14ca52902b19378cc5137747c8881acc7a6913871b2cbf512fba85b4"
     }
   ]
 }
