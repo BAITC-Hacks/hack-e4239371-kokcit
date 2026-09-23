@@ -1,3 +1,5 @@
+import hashlib
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -14,6 +16,18 @@ HISTOGRAM_PROFILES = {
     "accurate": {"learning_rate": 0.05, "max_iter": 400, "l2_regularization": 0.2},
 }
 MODEL_PROFILES = (*HISTOGRAM_PROFILES, "extra_trees")
+
+
+class ForecastEnsemble:
+    """Weighted independent regressors, each with its own training window/features."""
+
+    def __init__(self, members, weights):
+        self.members = members
+        self.weights = weights
+
+    def predict(self, features):
+        predictions = [model.predict(features[columns]) for model, columns in self.members]
+        return np.average(predictions, axis=0, weights=self.weights)
 
 
 def create_baseline_model(profile: str = "balanced") -> Any:
@@ -49,5 +63,25 @@ def save_model(model: Any, path: str | Path) -> None:
     joblib.dump(model, destination, compress=3)
 
 
+@lru_cache(maxsize=16)
+def _load_cached(path: str, modified: int) -> Any:
+    model = joblib.load(path)
+    # Keep inference portable in environments without multiprocessing permissions.
+    estimator = model.get("estimator") if isinstance(model, dict) else model
+    if hasattr(estimator, "n_jobs"):
+        estimator.n_jobs = 1
+    return model
+
+
 def load_model(path: str | Path) -> Any:
-    return joblib.load(path)
+    path = Path(path)
+    return _load_cached(str(path.resolve()), path.stat().st_mtime_ns)
+
+
+@lru_cache(maxsize=16)
+def _model_digest(path: str, modified: int) -> str:
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def model_digest(path: Path) -> str:
+    return _model_digest(str(path.resolve()), path.stat().st_mtime_ns)

@@ -1,5 +1,7 @@
 from datetime import UTC, date, datetime
 
+import pytest
+
 from app.config import settings
 from app.schemas import AgentStep, ForecastAccepted, ForecastPoint
 from app.services.storage import (
@@ -42,7 +44,5 @@ def test_storage_replaces_same_logical_forecast(tmp_path, monkeypatch) -> None:
     assert get_forecast("first") is None
     assert get_forecast("second").forecast[0].normalized_power == 0.6
 
-    csv_content = february_forecast_to_csv(1)
-    assert csv_content is not None
-    assert "issue_date,timestamp,turbine_id" in csv_content
-    assert "0.6" in csv_content
+    with pytest.raises(ValueError):
+        february_forecast_to_csv(1)

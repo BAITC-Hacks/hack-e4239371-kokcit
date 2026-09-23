@@ -1,16 +1,22 @@
 import json
-from datetime import date, timedelta
+import logging
+import sqlite3
+from typing import Literal
 
-from fastapi import FastAPI, HTTPException, Query
+import pandas as pd
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import Response
+from fastapi.responses import JSONResponse, Response
+from fastapi.staticfiles import StaticFiles
 
-from app.agent import describe_pipeline, run_forecast, run_forecast_with_weather
+from app.agent import describe_pipeline, run_february, run_forecast
 from app.config import settings
+from app.jobs import get_job, submit
 from app.schemas import (
     AgentStep,
     FebruaryForecastResponse,
     ForecastAccepted,
+    ForecastJob,
     ForecastRequest,
     ForecastSummary,
 )
@@ -19,16 +25,12 @@ from app.services.storage import (
     forecast_to_csv,
     get_forecast,
     list_forecasts,
-    save_forecast,
+    list_job_audits,
 )
-from app.services.weather import fetch_archived_weather
-
-TURBINES = {
-    1: (43.645150, 78.535604),
-    2: (43.643198, 78.538828),
-}
+from app.services.weather import WeatherUnavailable
 
 app = FastAPI(title=settings.app_name, version="0.1.0")
+logger = logging.getLogger(__name__)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173"],
@@ -38,9 +40,29 @@ app.add_middleware(
 )
 
 
+@app.exception_handler(WeatherUnavailable)
+async def weather_error(_request: Request, error: WeatherUnavailable):
+    return JSONResponse(status_code=503, content={"detail": str(error)})
+
+
+@app.exception_handler(sqlite3.Error)
+@app.exception_handler(OSError)
+async def storage_error(_request: Request, error: Exception):
+    logger.error("Local storage unavailable: %s", type(error).__name__)
+    return JSONResponse(
+        status_code=503,
+        content={"detail": "Локальное хранилище недоступно. Проверьте доступ к папке данных."},
+    )
+
+
 @app.get("/api/health")
-def health() -> dict[str, str]:
-    return {"status": "ok", "service": settings.app_name}
+def health() -> dict:
+    ready = all(
+        (settings.model_dir / f"turbine_{t}_day_{d}.joblib").exists()
+        for t in (1, 2)
+        for d in (1, 2)
+    )
+    return {"status": "ok", "service": settings.app_name, "models_ready": ready}
 
 
 @app.get("/api/agent/steps", response_model=list[AgentStep])
@@ -56,11 +78,51 @@ def model_metrics() -> dict:
     return json.loads(metrics_path.read_text(encoding="utf-8"))
 
 
+@app.get("/api/models/validation")
+def model_validation(turbine_id: int = Query(ge=1, le=2), lead_days: int = Query(ge=1, le=2)):
+    path = settings.model_dir / "validation_predictions.csv"
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="Отчёт проверки пока не подготовлен")
+    frame = pd.read_csv(path)
+    selected = frame[(frame.turbine_id == turbine_id) & (frame.lead_days == lead_days)]
+    return {"points": selected.to_dict(orient="records"), "period": "Январь 2026"}
+
+
+@app.post("/api/jobs", response_model=ForecastJob, status_code=202)
+def create_job(request: ForecastRequest):
+    try:
+        return submit(request)
+    except ValueError as error:
+        raise HTTPException(status_code=429, detail=str(error)) from error
+
+
+@app.post("/api/jobs/february", response_model=ForecastJob, status_code=202)
+def create_february_job(request: ForecastRequest):
+    try:
+        return submit(request, february=True)
+    except ValueError as error:
+        raise HTTPException(status_code=429, detail=str(error)) from error
+
+
+@app.get("/api/jobs")
+def job_history(limit: int = Query(default=20, ge=1, le=100)):
+    return list_job_audits(limit)
+
+
+@app.get("/api/jobs/{job_id}", response_model=ForecastJob)
+def job_status(job_id: str):
+    result = get_job(job_id)
+    if result is None:
+        raise HTTPException(
+            status_code=404, detail="Расчёт не найден. После перезапуска сервера откройте историю."
+        )
+    return result
+
+
 @app.post("/api/forecasts", response_model=ForecastAccepted)
 def create_forecast(request: ForecastRequest) -> ForecastAccepted:
     try:
         result = run_forecast(request)
-        save_forecast(result)
         return result
     except (FileNotFoundError, ValueError) as error:
         raise HTTPException(status_code=422, detail=str(error)) from error
@@ -69,41 +131,20 @@ def create_forecast(request: ForecastRequest) -> ForecastAccepted:
 @app.post("/api/forecasts/february", response_model=FebruaryForecastResponse)
 def create_february_forecast(
     turbine_id: int = Query(ge=1, le=2),
+    data_mode: Literal["auto", "offline", "live"] = "auto",
 ) -> FebruaryForecastResponse:
-    first_issue = date(2026, 1, 31)
-    last_issue = date(2026, 2, 27)
-    latitude, longitude = TURBINES[turbine_id]
     try:
-        weather = fetch_archived_weather(latitude, longitude, "2026-02-01", "2026-02-28")
-        current_issue = first_issue
-        results = []
-        while current_issue <= last_issue:
-            request = ForecastRequest(
-                turbine_id=turbine_id,
-                issue_date=current_issue,
-                horizon_hours=24,
-            )
-            result = run_forecast_with_weather(request, weather)
-            save_forecast(result)
-            results.append(result)
-            current_issue += timedelta(days=1)
+        return run_february(turbine_id, data_mode)
     except (FileNotFoundError, ValueError) as error:
         raise HTTPException(status_code=422, detail=str(error)) from error
-
-    return FebruaryForecastResponse(
-        turbine_id=turbine_id,
-        generated_runs=len(results),
-        first_issue_date=first_issue,
-        last_issue_date=last_issue,
-        expected_normalized_energy=sum(result.expected_normalized_energy for result in results),
-        steps=results[-1].steps,
-        forecast=[point for result in results for point in result.forecast],
-    )
 
 
 @app.get("/api/forecasts/february/export.csv")
 def export_february_forecast(turbine_id: int = Query(ge=1, le=2)) -> Response:
-    content = february_forecast_to_csv(turbine_id)
+    try:
+        content = february_forecast_to_csv(turbine_id)
+    except ValueError as error:
+        raise HTTPException(status_code=409, detail=str(error)) from error
     if content is None:
         raise HTTPException(status_code=404, detail="February forecast not found")
     return Response(
@@ -140,3 +181,7 @@ def export_forecast(run_id: str) -> Response:
         media_type="text/csv; charset=utf-8",
         headers={"Content-Disposition": f'attachment; filename="forecast-{run_id}.csv"'},
     )
+
+
+if settings.frontend_dir.exists():
+    app.mount("/", StaticFiles(directory=settings.frontend_dir, html=True), name="frontend")

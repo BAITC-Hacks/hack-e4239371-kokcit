@@ -1,0 +1,1490 @@
+{
+  "turbine_1_day_1": {
+    "winner": {
+      "profile": "ensemble",
+      "context": true,
+      "months": 24,
+      "members": [
+        {
+          "profile": "small",
+          "context": true,
+          "months": 12
+        },
+        {
+          "profile": "extra",
+          "context": true,
+          "months": 24
+        }
+      ],
+      "weights": [
+        0.75,
+        0.25
+      ],
+      "december": {
+        "mae": 0.19540314916252408,
+        "rmse": 0.2683434678966934,
+        "r2": 0.5088863873744551,
+        "samples": 744
+      }
+    },
+    "candidates": [
+      {
+        "context": false,
+        "months": 24,
+        "profile": "small",
+        "december": {
+          "mae": 0.20347875798245543,
+          "rmse": 0.27497016988688155,
+          "r2": 0.4843309336755074,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 24,
+        "profile": "large",
+        "december": {
+          "mae": 0.20581838166957173,
+          "rmse": 0.28272782701456495,
+          "r2": 0.45482362625441564,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 24,
+        "profile": "extra",
+        "december": {
+          "mae": 0.2065788609230348,
+          "rmse": 0.281441665360207,
+          "r2": 0.45977248515072056,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 24,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.20933088206540842,
+          "rmse": 0.2843963410201344,
+          "r2": 0.4483699388220742,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 12,
+        "profile": "small",
+        "december": {
+          "mae": 0.20375755383713637,
+          "rmse": 0.27780268722353035,
+          "r2": 0.47365221360102483,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 12,
+        "profile": "large",
+        "december": {
+          "mae": 0.2086222439330451,
+          "rmse": 0.2861792198800648,
+          "r2": 0.44143192888852034,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 12,
+        "profile": "extra",
+        "december": {
+          "mae": 0.20669424219968816,
+          "rmse": 0.28585509067861664,
+          "r2": 0.4426964909659711,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 12,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.2097960319720395,
+          "rmse": 0.2887874533145985,
+          "r2": 0.43120396829382013,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 6,
+        "profile": "small",
+        "december": {
+          "mae": 0.21870281905734165,
+          "rmse": 0.30251463536388284,
+          "r2": 0.37584465141618595,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 6,
+        "profile": "large",
+        "december": {
+          "mae": 0.22415807760985867,
+          "rmse": 0.31063676613718116,
+          "r2": 0.3418791821637991,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 6,
+        "profile": "extra",
+        "december": {
+          "mae": 0.20791479939455948,
+          "rmse": 0.2887319086252886,
+          "r2": 0.4314227489934701,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 6,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.2075542432381666,
+          "rmse": 0.2926974346383015,
+          "r2": 0.41569749514688026,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 24,
+        "profile": "small",
+        "december": {
+          "mae": 0.20337526048894372,
+          "rmse": 0.27731460483820014,
+          "r2": 0.4755001107966469,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 24,
+        "profile": "large",
+        "december": {
+          "mae": 0.20214977943773532,
+          "rmse": 0.27853627296381717,
+          "r2": 0.4708687197181326,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 24,
+        "profile": "extra",
+        "december": {
+          "mae": 0.202567129397417,
+          "rmse": 0.27291240044415804,
+          "r2": 0.4920201860302492,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 24,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.20344130930157311,
+          "rmse": 0.2737319971839172,
+          "r2": 0.48896452595585604,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 12,
+        "profile": "small",
+        "december": {
+          "mae": 0.19439089804490423,
+          "rmse": 0.26865819702809807,
+          "r2": 0.5077336974651196,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 12,
+        "profile": "large",
+        "december": {
+          "mae": 0.19821240901104523,
+          "rmse": 0.27361112109590574,
+          "r2": 0.4894157580424897,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 12,
+        "profile": "extra",
+        "december": {
+          "mae": 0.2004883220740199,
+          "rmse": 0.27399277684379836,
+          "r2": 0.4879903531199674,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 12,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.2012940609132318,
+          "rmse": 0.27480782309165136,
+          "r2": 0.4849396724805731,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 6,
+        "profile": "small",
+        "december": {
+          "mae": 0.2123992896521577,
+          "rmse": 0.27946371534756875,
+          "r2": 0.46733915585013197,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 6,
+        "profile": "large",
+        "december": {
+          "mae": 0.2179548572687114,
+          "rmse": 0.2867651550075487,
+          "r2": 0.43914231679064686,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 6,
+        "profile": "extra",
+        "december": {
+          "mae": 0.20659130640790827,
+          "rmse": 0.2761947162933182,
+          "r2": 0.47972776694448593,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 6,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.21238992212390478,
+          "rmse": 0.2766037798137897,
+          "r2": 0.4781855072086466,
+          "samples": 744
+        }
+      },
+      {
+        "profile": "ensemble",
+        "context": true,
+        "months": 24,
+        "members": [
+          {
+            "profile": "small",
+            "context": true,
+            "months": 12
+          },
+          {
+            "profile": "extra",
+            "context": true,
+            "months": 24
+          }
+        ],
+        "weights": [
+          0.25,
+          0.75
+        ],
+        "december": {
+          "mae": 0.19962416157175625,
+          "rmse": 0.2704793182937759,
+          "r2": 0.501037344541852,
+          "samples": 744
+        }
+      },
+      {
+        "profile": "ensemble",
+        "context": true,
+        "months": 24,
+        "members": [
+          {
+            "profile": "small",
+            "context": true,
+            "months": 12
+          },
+          {
+            "profile": "extra",
+            "context": true,
+            "months": 24
+          }
+        ],
+        "weights": [
+          0.5,
+          0.5
+        ],
+        "december": {
+          "mae": 0.19717783914545442,
+          "rmse": 0.268951662391475,
+          "r2": 0.5066576684277011,
+          "samples": 744
+        }
+      },
+      {
+        "profile": "ensemble",
+        "context": true,
+        "months": 24,
+        "members": [
+          {
+            "profile": "small",
+            "context": true,
+            "months": 12
+          },
+          {
+            "profile": "extra",
+            "context": true,
+            "months": 24
+          }
+        ],
+        "weights": [
+          0.75,
+          0.25
+        ],
+        "december": {
+          "mae": 0.19540314916252408,
+          "rmse": 0.2683434678966934,
+          "r2": 0.5088863873744551,
+          "samples": 744
+        }
+      }
+    ]
+  },
+  "turbine_1_day_2": {
+    "winner": {
+      "profile": "ensemble",
+      "context": true,
+      "months": 24,
+      "members": [
+        {
+          "profile": "small",
+          "context": true,
+          "months": 24
+        },
+        {
+          "profile": "extra",
+          "context": true,
+          "months": 24
+        }
+      ],
+      "weights": [
+        0.5,
+        0.5
+      ],
+      "december": {
+        "mae": 0.2096405683869211,
+        "rmse": 0.2749003256194469,
+        "r2": 0.4845928672079419,
+        "samples": 744
+      }
+    },
+    "candidates": [
+      {
+        "context": false,
+        "months": 24,
+        "profile": "small",
+        "december": {
+          "mae": 0.21661154974506688,
+          "rmse": 0.28597378634517645,
+          "r2": 0.4422335763824924,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 24,
+        "profile": "large",
+        "december": {
+          "mae": 0.2295243716541512,
+          "rmse": 0.3029929047947716,
+          "r2": 0.37386953774551746,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 24,
+        "profile": "extra",
+        "december": {
+          "mae": 0.2083476460834259,
+          "rmse": 0.2782917583409287,
+          "r2": 0.47179731365281463,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 24,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.20944853004814531,
+          "rmse": 0.27990647155097625,
+          "r2": 0.4656500226950726,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 12,
+        "profile": "small",
+        "december": {
+          "mae": 0.2117693611840696,
+          "rmse": 0.28097526145083007,
+          "r2": 0.46156152692280616,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 12,
+        "profile": "large",
+        "december": {
+          "mae": 0.22086207230886895,
+          "rmse": 0.29279712923054374,
+          "r2": 0.41529939312384967,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 12,
+        "profile": "extra",
+        "december": {
+          "mae": 0.2073577792587447,
+          "rmse": 0.28048689396574084,
+          "r2": 0.4634316368946878,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 12,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.2078253131229355,
+          "rmse": 0.2799380653387853,
+          "r2": 0.46552938888141915,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 6,
+        "profile": "small",
+        "december": {
+          "mae": 0.23033302278347403,
+          "rmse": 0.3134276255655248,
+          "r2": 0.3300005268290227,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 6,
+        "profile": "large",
+        "december": {
+          "mae": 0.22999446534504922,
+          "rmse": 0.3156623427788003,
+          "r2": 0.32041236732645806,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 6,
+        "profile": "extra",
+        "december": {
+          "mae": 0.20550397420542657,
+          "rmse": 0.2828657980586349,
+          "r2": 0.4542914048060255,
+          "samples": 744
+        }
+      },
+      {
+        "context": false,
+        "months": 6,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.20980467934392247,
+          "rmse": 0.2853867719901314,
+          "r2": 0.44452106475395226,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 24,
+        "profile": "small",
+        "december": {
+          "mae": 0.21172881994426446,
+          "rmse": 0.2768308150736089,
+          "r2": 0.47732854922351486,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 24,
+        "profile": "large",
+        "december": {
+          "mae": 0.21210745635990977,
+          "rmse": 0.28149142322269904,
+          "r2": 0.459581447746525,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 24,
+        "profile": "extra",
+        "december": {
+          "mae": 0.20886354685770708,
+          "rmse": 0.2757452898593288,
+          "r2": 0.48141957232907673,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 24,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.2089483121186423,
+          "rmse": 0.27694274549393505,
+          "r2": 0.4769058024832262,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 12,
+        "profile": "small",
+        "december": {
+          "mae": 0.20998932593313022,
+          "rmse": 0.2835435943649036,
+          "r2": 0.4516730435858016,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 12,
+        "profile": "large",
+        "december": {
+          "mae": 0.21091709654593274,
+          "rmse": 0.28496867850049235,
+          "r2": 0.44614743311518856,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 12,
+        "profile": "extra",
+        "december": {
+          "mae": 0.20616975406257695,
+          "rmse": 0.27761604554308505,
+          "r2": 0.4743592293293247,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 12,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.20947819692904798,
+          "rmse": 0.2807035937534849,
+          "r2": 0.4626022279723372,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 6,
+        "profile": "small",
+        "december": {
+          "mae": 0.21472438866787918,
+          "rmse": 0.28272740014933834,
+          "r2": 0.4548252724783697,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 6,
+        "profile": "large",
+        "december": {
+          "mae": 0.22366341511436058,
+          "rmse": 0.2870969966691391,
+          "r2": 0.43784352837106055,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 6,
+        "profile": "extra",
+        "december": {
+          "mae": 0.2146979157004851,
+          "rmse": 0.27976013645400494,
+          "r2": 0.46620859295863915,
+          "samples": 744
+        }
+      },
+      {
+        "context": true,
+        "months": 6,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.2254661030528176,
+          "rmse": 0.28321444620211533,
+          "r2": 0.45294534216287774,
+          "samples": 744
+        }
+      },
+      {
+        "profile": "ensemble",
+        "context": true,
+        "months": 24,
+        "members": [
+          {
+            "profile": "small",
+            "context": true,
+            "months": 24
+          },
+          {
+            "profile": "extra",
+            "context": true,
+            "months": 24
+          }
+        ],
+        "weights": [
+          0.25,
+          0.75
+        ],
+        "december": {
+          "mae": 0.2091390206031834,
+          "rmse": 0.2749752298556761,
+          "r2": 0.48431195493761237,
+          "samples": 744
+        }
+      },
+      {
+        "profile": "ensemble",
+        "context": true,
+        "months": 24,
+        "members": [
+          {
+            "profile": "small",
+            "context": true,
+            "months": 24
+          },
+          {
+            "profile": "extra",
+            "context": true,
+            "months": 24
+          }
+        ],
+        "weights": [
+          0.5,
+          0.5
+        ],
+        "december": {
+          "mae": 0.2096405683869211,
+          "rmse": 0.2749003256194469,
+          "r2": 0.4845928672079419,
+          "samples": 744
+        }
+      },
+      {
+        "profile": "ensemble",
+        "context": true,
+        "months": 24,
+        "members": [
+          {
+            "profile": "small",
+            "context": true,
+            "months": 24
+          },
+          {
+            "profile": "extra",
+            "context": true,
+            "months": 24
+          }
+        ],
+        "weights": [
+          0.75,
+          0.25
+        ],
+        "december": {
+          "mae": 0.21050299820704815,
+          "rmse": 0.2755211205320785,
+          "r2": 0.48226239776805424,
+          "samples": 744
+        }
+      }
+    ]
+  },
+  "turbine_2_day_1": {
+    "winner": {
+      "context": true,
+      "months": 24,
+      "profile": "small",
+      "december": {
+        "mae": 0.1990019034355734,
+        "rmse": 0.2724368288386018,
+        "r2": 0.4872070695958055,
+        "samples": 741
+      }
+    },
+    "candidates": [
+      {
+        "context": false,
+        "months": 24,
+        "profile": "small",
+        "december": {
+          "mae": 0.20812914909788843,
+          "rmse": 0.28266339099567855,
+          "r2": 0.44798672023212815,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 24,
+        "profile": "large",
+        "december": {
+          "mae": 0.20967902586693743,
+          "rmse": 0.2865285562792411,
+          "r2": 0.4327869433289686,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 24,
+        "profile": "extra",
+        "december": {
+          "mae": 0.21010836945782727,
+          "rmse": 0.2866381210169157,
+          "r2": 0.43235307082022434,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 24,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.21433409437409942,
+          "rmse": 0.29147213622059936,
+          "r2": 0.4130454356815345,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 12,
+        "profile": "small",
+        "december": {
+          "mae": 0.20820443203542785,
+          "rmse": 0.28520245866960214,
+          "r2": 0.438025089830528,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 12,
+        "profile": "large",
+        "december": {
+          "mae": 0.2133219125202036,
+          "rmse": 0.2952540076005375,
+          "r2": 0.3977150672914186,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 12,
+        "profile": "extra",
+        "december": {
+          "mae": 0.2110650194557899,
+          "rmse": 0.2911928055043157,
+          "r2": 0.4141699059556764,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 12,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.2133669912973641,
+          "rmse": 0.29459610734601377,
+          "r2": 0.40039616177482984,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 6,
+        "profile": "small",
+        "december": {
+          "mae": 0.22222996772460413,
+          "rmse": 0.30593982945318854,
+          "r2": 0.35333041256665776,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 6,
+        "profile": "large",
+        "december": {
+          "mae": 0.23463860822321927,
+          "rmse": 0.32311418920091994,
+          "r2": 0.27868916440446245,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 6,
+        "profile": "extra",
+        "december": {
+          "mae": 0.21350382551662656,
+          "rmse": 0.2954467183482852,
+          "r2": 0.39692859425572125,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 6,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.21520966322704266,
+          "rmse": 0.3003670905040504,
+          "r2": 0.3766742161607508,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 24,
+        "profile": "small",
+        "december": {
+          "mae": 0.1990019034355734,
+          "rmse": 0.2724368288386018,
+          "r2": 0.4872070695958055,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 24,
+        "profile": "large",
+        "december": {
+          "mae": 0.19974745857772783,
+          "rmse": 0.274486010957801,
+          "r2": 0.479463931335515,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 24,
+        "profile": "extra",
+        "december": {
+          "mae": 0.20675455906716805,
+          "rmse": 0.27771356112591705,
+          "r2": 0.4671504894919506,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 24,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.20660370701950748,
+          "rmse": 0.2770873499742875,
+          "r2": 0.46955080515544745,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 12,
+        "profile": "small",
+        "december": {
+          "mae": 0.1965684208529615,
+          "rmse": 0.2738439284216836,
+          "r2": 0.4818963773676229,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 12,
+        "profile": "large",
+        "december": {
+          "mae": 0.2002940522149696,
+          "rmse": 0.2793079631338822,
+          "r2": 0.46101456217885195,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 12,
+        "profile": "extra",
+        "december": {
+          "mae": 0.20373125762980693,
+          "rmse": 0.2781522393647594,
+          "r2": 0.46546577449257487,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 12,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.20619740657287808,
+          "rmse": 0.2795576211496971,
+          "r2": 0.4600505927148407,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 6,
+        "profile": "small",
+        "december": {
+          "mae": 0.21215492407061884,
+          "rmse": 0.2839451641682812,
+          "r2": 0.4429690201229235,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 6,
+        "profile": "large",
+        "december": {
+          "mae": 0.21582781879661503,
+          "rmse": 0.28423533965491926,
+          "r2": 0.44182993168085893,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 6,
+        "profile": "extra",
+        "december": {
+          "mae": 0.20983877056894223,
+          "rmse": 0.2814461354861832,
+          "r2": 0.45273083928635993,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 6,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.215368538042935,
+          "rmse": 0.2823111124272525,
+          "r2": 0.4493617923250959,
+          "samples": 741
+        }
+      },
+      {
+        "profile": "ensemble",
+        "context": true,
+        "months": 24,
+        "members": [
+          {
+            "profile": "small",
+            "context": true,
+            "months": 24
+          },
+          {
+            "profile": "extra_deep",
+            "context": true,
+            "months": 24
+          }
+        ],
+        "weights": [
+          0.25,
+          0.75
+        ],
+        "december": {
+          "mae": 0.2039215644017454,
+          "rmse": 0.27497420637395986,
+          "r2": 0.4776106542876275,
+          "samples": 741
+        }
+      },
+      {
+        "profile": "ensemble",
+        "context": true,
+        "months": 24,
+        "members": [
+          {
+            "profile": "small",
+            "context": true,
+            "months": 24
+          },
+          {
+            "profile": "extra_deep",
+            "context": true,
+            "months": 24
+          }
+        ],
+        "weights": [
+          0.5,
+          0.5
+        ],
+        "december": {
+          "mae": 0.20183044622693552,
+          "rmse": 0.2735210058008983,
+          "r2": 0.4831175746707822,
+          "samples": 741
+        }
+      },
+      {
+        "profile": "ensemble",
+        "context": true,
+        "months": 24,
+        "members": [
+          {
+            "profile": "small",
+            "context": true,
+            "months": 24
+          },
+          {
+            "profile": "extra_deep",
+            "context": true,
+            "months": 24
+          }
+        ],
+        "weights": [
+          0.75,
+          0.25
+        ],
+        "december": {
+          "mae": 0.200260624136286,
+          "rmse": 0.2726887625168592,
+          "r2": 0.4862582291377098,
+          "samples": 741
+        }
+      }
+    ]
+  },
+  "turbine_2_day_2": {
+    "winner": {
+      "profile": "ensemble",
+      "context": true,
+      "months": 24,
+      "members": [
+        {
+          "profile": "small",
+          "context": true,
+          "months": 24
+        },
+        {
+          "profile": "extra",
+          "context": true,
+          "months": 24
+        }
+      ],
+      "weights": [
+        0.5,
+        0.5
+      ],
+      "december": {
+        "mae": 0.20404034238963598,
+        "rmse": 0.27229922566140635,
+        "r2": 0.4877249446346159,
+        "samples": 741
+      }
+    },
+    "candidates": [
+      {
+        "context": false,
+        "months": 24,
+        "profile": "small",
+        "december": {
+          "mae": 0.21485493828382637,
+          "rmse": 0.28438989106783286,
+          "r2": 0.4412227628035813,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 24,
+        "profile": "large",
+        "december": {
+          "mae": 0.22428092018441687,
+          "rmse": 0.2978805358745979,
+          "r2": 0.3869517611257115,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 24,
+        "profile": "extra",
+        "december": {
+          "mae": 0.2061966305230943,
+          "rmse": 0.2787717813528099,
+          "r2": 0.4630819345565278,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 24,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.20782752569636345,
+          "rmse": 0.2797342670631765,
+          "r2": 0.45936801436094854,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 12,
+        "profile": "small",
+        "december": {
+          "mae": 0.21223249952367257,
+          "rmse": 0.2801732182472582,
+          "r2": 0.45766999399560826,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 12,
+        "profile": "large",
+        "december": {
+          "mae": 0.2220997063142873,
+          "rmse": 0.29205162413974384,
+          "r2": 0.4107092178878933,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 12,
+        "profile": "extra",
+        "december": {
+          "mae": 0.20747743641271793,
+          "rmse": 0.280968261724046,
+          "r2": 0.4545877029251988,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 12,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.2076661084422671,
+          "rmse": 0.2815558038179479,
+          "r2": 0.45230425827037324,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 6,
+        "profile": "small",
+        "december": {
+          "mae": 0.23187194051843338,
+          "rmse": 0.3164139016656443,
+          "r2": 0.30829405509998387,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 6,
+        "profile": "large",
+        "december": {
+          "mae": 0.23467608857360295,
+          "rmse": 0.32134727820667525,
+          "r2": 0.2865563976309883,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 6,
+        "profile": "extra",
+        "december": {
+          "mae": 0.205385368679518,
+          "rmse": 0.28652107032083796,
+          "r2": 0.4328165814071766,
+          "samples": 741
+        }
+      },
+      {
+        "context": false,
+        "months": 6,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.20975744046807643,
+          "rmse": 0.2871827963053805,
+          "r2": 0.43019371384570415,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 24,
+        "profile": "small",
+        "december": {
+          "mae": 0.20453545978937676,
+          "rmse": 0.2735263371571329,
+          "r2": 0.48309742476537276,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 24,
+        "profile": "large",
+        "december": {
+          "mae": 0.2058055855157529,
+          "rmse": 0.2751809535538839,
+          "r2": 0.47682481238733954,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 24,
+        "profile": "extra",
+        "december": {
+          "mae": 0.20554024037577034,
+          "rmse": 0.2737039217027913,
+          "r2": 0.48242601806927765,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 24,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.20904857824761333,
+          "rmse": 0.27696504373453823,
+          "r2": 0.4700189819091741,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 12,
+        "profile": "small",
+        "december": {
+          "mae": 0.20970705825317817,
+          "rmse": 0.2810459892170156,
+          "r2": 0.4542858937875254,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 12,
+        "profile": "large",
+        "december": {
+          "mae": 0.2079393716210014,
+          "rmse": 0.28049073086810494,
+          "r2": 0.45644008204684017,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 12,
+        "profile": "extra",
+        "december": {
+          "mae": 0.2067875740762766,
+          "rmse": 0.2777588441763947,
+          "r2": 0.4669767059836125,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 12,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.20991741946568698,
+          "rmse": 0.28126798197672864,
+          "r2": 0.4534234553968278,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 6,
+        "profile": "small",
+        "december": {
+          "mae": 0.21194393862405123,
+          "rmse": 0.2822240757906935,
+          "r2": 0.44970126397669596,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 6,
+        "profile": "large",
+        "december": {
+          "mae": 0.2184395276680603,
+          "rmse": 0.2823531210568826,
+          "r2": 0.449197907330662,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 6,
+        "profile": "extra",
+        "december": {
+          "mae": 0.2143223025924926,
+          "rmse": 0.28063403775964707,
+          "r2": 0.4558845144453674,
+          "samples": 741
+        }
+      },
+      {
+        "context": true,
+        "months": 6,
+        "profile": "extra_deep",
+        "december": {
+          "mae": 0.22443130569925526,
+          "rmse": 0.2825920825909716,
+          "r2": 0.44826520143961435,
+          "samples": 741
+        }
+      },
+      {
+        "profile": "ensemble",
+        "context": true,
+        "months": 24,
+        "members": [
+          {
+            "profile": "small",
+            "context": true,
+            "months": 24
+          },
+          {
+            "profile": "extra",
+            "context": true,
+            "months": 24
+          }
+        ],
+        "weights": [
+          0.25,
+          0.75
+        ],
+        "december": {
+          "mae": 0.20463650954085988,
+          "rmse": 0.2726656824492579,
+          "r2": 0.4863451904990942,
+          "samples": 741
+        }
+      },
+      {
+        "profile": "ensemble",
+        "context": true,
+        "months": 24,
+        "members": [
+          {
+            "profile": "small",
+            "context": true,
+            "months": 24
+          },
+          {
+            "profile": "extra",
+            "context": true,
+            "months": 24
+          }
+        ],
+        "weights": [
+          0.5,
+          0.5
+        ],
+        "december": {
+          "mae": 0.20404034238963598,
+          "rmse": 0.27229922566140635,
+          "r2": 0.4877249446346159,
+          "samples": 741
+        }
+      },
+      {
+        "profile": "ensemble",
+        "context": true,
+        "months": 24,
+        "members": [
+          {
+            "profile": "small",
+            "context": true,
+            "months": 24
+          },
+          {
+            "profile": "extra",
+            "context": true,
+            "months": 24
+          }
+        ],
+        "weights": [
+          0.75,
+          0.25
+        ],
+        "december": {
+          "mae": 0.20385582614454742,
+          "rmse": 0.2726072605165415,
+          "r2": 0.48656528047584313,
+          "samples": 741
+        }
+      }
+    ]
+  }
+}

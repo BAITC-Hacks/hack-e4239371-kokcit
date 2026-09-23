@@ -40,3 +40,22 @@ def build_features(weather: pd.DataFrame, lead_days: int) -> pd.DataFrame:
         },
         index=weather.index,
     )
+
+
+def build_context_features(weather: pd.DataFrame, lead_days: int) -> pd.DataFrame:
+    """Only forecasts from the same target day; never use future observations."""
+    result = build_features(weather, lead_days)
+    groups = pd.to_datetime(weather.timestamp).dt.date
+    for column in ("wind_100m_ms", "wind_10m_ms", "temperature_c"):
+        grouped = result[column].groupby(groups)
+        for name in ("mean", "min", "max", "std"):
+            result[f"{column}_daily_{name}"] = grouped.transform(name)
+        for offset in (-6, -3, -1, 1, 3, 6):
+            result[f"{column}_offset_{offset}"] = grouped.shift(offset).fillna(result[column])
+    result["wind_shear"] = result.wind_100m_ms - result.wind_10m_ms
+    result["wind_u"] = result.wind_100m_ms * result.wind_direction_sin
+    result["wind_v"] = result.wind_100m_ms * result.wind_direction_cos
+    if lead_days == 1:
+        result["older_wind"] = weather.wind_speed_100m_previous_day2 / 3.6
+        result["run_change"] = result.wind_100m_ms - result.older_wind
+    return result

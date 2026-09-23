@@ -1,0 +1,26 @@
+services:
+  windflow:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_PATH: /app/backend/runtime/windflow.sqlite3
+      WEATHER_CACHE_DIR: /app/backend/runtime/weather
+    volumes:
+      - windflow-data:/app/backend/runtime
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+  scheduler:
+    build: .
+    profiles: ["schedule"]
+    command: ["python", "-m", "scripts.run_daily", "--loop"]
+    environment:
+      DATABASE_PATH: /app/backend/runtime/windflow.sqlite3
+      WEATHER_CACHE_DIR: /app/backend/runtime/weather
+    volumes:
+      - windflow-data:/app/backend/runtime
+volumes:
+  windflow-data:

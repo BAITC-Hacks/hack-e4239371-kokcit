@@ -1,0 +1,16 @@
+{
+  "source": "https://previous-runs-api.open-meteo.com/v1/forecast",
+  "provenance": "Existing training weather cache; original retrieval time was not recorded",
+  "files": [
+    {
+      "path": "weather_turbine_1.csv",
+      "hours": 744,
+      "sha256": "1bc96b596b17dc06ea3816980b988951dfabe1628966f0b477f76d9dcd4d43e3"
+    },
+    {
+      "path": "weather_turbine_2.csv",
+      "hours": 744,
+      "sha256": "1bc96b596b17dc06ea3816980b988951dfabe1628966f0b477f76d9dcd4d43e3"
+    }
+  ]
+}

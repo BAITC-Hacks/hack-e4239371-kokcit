@@ -1,0 +1,42 @@
+{
+  "turbine_1": {
+    "day_1": {
+      "mae": 0.16314634220444393,
+      "rmse": 0.21843888263000724,
+      "r2": 0.5806066754348211,
+      "samples": 744,
+      "model_profile": "accurate",
+      "train_samples": 14822,
+      "model_path": "models\\turbine_1_day_1.joblib"
+    },
+    "day_2": {
+      "mae": 0.19570037852396746,
+      "rmse": 0.2582039615496089,
+      "r2": 0.41401375294615395,
+      "samples": 744,
+      "model_profile": "balanced",
+      "train_samples": 14798,
+      "model_path": "models\\turbine_1_day_2.joblib"
+    }
+  },
+  "turbine_2": {
+    "day_1": {
+      "mae": 0.16548497209536817,
+      "rmse": 0.2231668971958038,
+      "r2": 0.5630586503520367,
+      "samples": 744,
+      "model_profile": "balanced",
+      "train_samples": 16150,
+      "model_path": "models\\turbine_2_day_1.joblib"
+    },
+    "day_2": {
+      "mae": 0.19798676159834705,
+      "rmse": 0.2538882825704495,
+      "r2": 0.4344787729814117,
+      "samples": 744,
+      "model_profile": "extra_trees",
+      "train_samples": 16148,
+      "model_path": "models\\turbine_2_day_2.joblib"
+    }
+  }
+}

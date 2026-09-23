@@ -12,3 +12,5 @@ data/processed/
 backend/data_cache/
 *.db
 *.sqlite3
+.uv-cache/
+artifacts/
