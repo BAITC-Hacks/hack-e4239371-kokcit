@@ -1,6 +1,5 @@
 .env
 .env.*
-!.env.example
 .venv/
 __pycache__/
 *.py[cod]
@@ -10,5 +9,6 @@ node_modules/
 dist/
 data/raw/
 data/processed/
+backend/data_cache/
 *.db
 *.sqlite3
