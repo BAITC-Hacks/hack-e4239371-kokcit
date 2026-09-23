@@ -7,7 +7,7 @@ import pandas as pd
 from app.catalog import LOCAL_TIMEZONE, TURBINES
 from app.config import settings
 from app.schemas import ForecastPoint, ForecastRequest
-from app.services.features import build_context_features, build_features
+from app.services.features import build_model_features
 from app.services.model import load_model, model_digest
 from app.services.weather import WEATHER_VARIABLES, fetch_archived_weather
 
@@ -46,7 +46,7 @@ def validate_weather(request: ForecastRequest, weather: pd.DataFrame) -> list[pd
             raise ValueError(f"Ожидаются 24 уникальных последовательных часа за {valid_date}")
         columns = [f"{variable}_previous_day{lead}" for variable in WEATHER_VARIABLES]
         if lead == 1:
-            columns.append("wind_speed_100m_previous_day2")
+            columns.extend(f"{variable}_previous_day2" for variable in WEATHER_VARIABLES)
         if not set(columns).issubset(day.columns):
             raise ValueError("В погоде отсутствуют обязательные поля")
         values = day[columns].apply(pd.to_numeric, errors="coerce")
@@ -135,8 +135,7 @@ def prepare_inputs(
     prepared = []
     bundles = select_models(request) if bundles is None else bundles
     for lead, (day, bundle) in enumerate(zip(days, bundles, strict=True), start=1):
-        builder = build_context_features if bundle["feature_mode"] == "context" else build_features
-        features = builder(day, lead)
+        features = build_model_features(day, lead, bundle["feature_mode"])
         if not np.isfinite(features.to_numpy()).all():
             raise ValueError("Некорректные признаки модели")
         prepared.append((lead, day, features, bundle))

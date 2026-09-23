@@ -1,0 +1,182 @@
+{
+  "version": "windflow-v3",
+  "method": "December chooses each family's configuration and blend weight; January is a development-validation regression gate. Retain the previous model if neither MAE nor RMSE improves together.",
+  "january_is_blind_test": false,
+  "gpu_library": "3.2.0",
+  "gpu_configurations": 112,
+  "smooth_configurations": 80,
+  "models": {
+    "turbine_1_day_1": {
+      "promoted": true,
+      "family": "smooth",
+      "config": {
+        "family": "svr",
+        "mode": "compact",
+        "C": 0.3,
+        "gamma": 0.02,
+        "months": 12
+      },
+      "blend_weight": 0.25,
+      "december": {
+        "mae": 0.19480639394966684,
+        "rmse": 0.26810341986240616,
+        "r2": 0.5097646508053384,
+        "samples": 744
+      },
+      "before": {
+        "mae": 0.14736687202722737,
+        "rmse": 0.20211009468225985,
+        "r2": 0.6409643016518843
+      },
+      "after": {
+        "mae": 0.14558065711054574,
+        "rmse": 0.20079745787918746,
+        "r2": 0.6456127884928922,
+        "samples": 744
+      },
+      "native_portable_max_difference": null,
+      "base_artifact_sha256": "0b43950ac92e0f9f15eb29e6ae9c208469546b476f2be357ba86c02ff59b6f11"
+    },
+    "turbine_1_day_2": {
+      "promoted": true,
+      "family": "xgboost",
+      "config": {
+        "mode": "trajectory",
+        "months": 12,
+        "depth": 5,
+        "loss": "reg:squarederror",
+        "half_life": null
+      },
+      "blend_weight": 0.5,
+      "december": {
+        "mae": 0.20724162670961854,
+        "rmse": 0.2727392108972061,
+        "r2": 0.49266470697373954,
+        "samples": 744
+      },
+      "before": {
+        "mae": 0.19088834740919003,
+        "rmse": 0.2455711585812598,
+        "r2": 0.4660795249037628
+      },
+      "after": {
+        "mae": 0.18897145310171204,
+        "rmse": 0.2414920126783274,
+        "r2": 0.4836699521888126,
+        "samples": 720
+      },
+      "native_portable_max_difference": 0.0,
+      "base_artifact_sha256": "861bafdcb6e15546d1a56f2fc98f59b900869a5eb7f0da080642a2c5a4e8bf7a"
+    },
+    "turbine_2_day_1": {
+      "promoted": true,
+      "family": "xgboost",
+      "config": {
+        "mode": "context",
+        "months": 12,
+        "depth": 3,
+        "loss": "reg:squarederror",
+        "half_life": null
+      },
+      "blend_weight": 0.5,
+      "december": {
+        "mae": 0.1965331544978706,
+        "rmse": 0.27056413620481345,
+        "r2": 0.49423257383049435,
+        "samples": 741
+      },
+      "before": {
+        "mae": 0.15247039290902686,
+        "rmse": 0.20713581352536858,
+        "r2": 0.6235788787153386
+      },
+      "after": {
+        "mae": 0.15119861932497186,
+        "rmse": 0.2043204116212991,
+        "r2": 0.6337420122694659,
+        "samples": 744
+      },
+      "native_portable_max_difference": 0.0,
+      "base_artifact_sha256": "c50435bdc097adf5f191a539b5cea729e542d7eb6d6c8c4cfc952f142f01efee"
+    },
+    "turbine_2_day_2": {
+      "promoted": false,
+      "reason": "No finalist improved both January MAE and RMSE",
+      "metrics": {
+        "mae": 0.18839519362474821,
+        "rmse": 0.2430869677037509,
+        "r2": 0.4781613713508154,
+        "samples": 720,
+        "model_profile": "ensemble",
+        "feature_mode": "context",
+        "train_samples": 16124,
+        "production_train_samples": 16892,
+        "training_start": "2024-02-17 18:00:00",
+        "trained_through": "2025-12-30",
+        "validation_start": "2026-01-02",
+        "validation_end": "2026-01-31",
+        "selection_period": "2025-12-01 / 2025-12-31",
+        "baselines": {
+          "wind_curve": {
+            "mae": 0.20175755619272057,
+            "rmse": 0.24646970788903186,
+            "r2": 0.46353675468311584,
+            "samples": 720
+          },
+          "mean": {
+            "mae": 0.29920232495038446,
+            "rmse": 0.3399084094244799,
+            "r2": -0.020320682957876812,
+            "samples": 720
+          }
+        },
+        "error_radius": 0.4210741627269779,
+        "model_path": "turbine_2_day_2.joblib",
+        "validation_model_path": "validation/turbine_2_day_2.joblib",
+        "target_r2": 0.8,
+        "target_met": false,
+        "previous_version": {
+          "mae": 0.19798676159834705,
+          "rmse": 0.2538882825704495,
+          "r2": 0.4344787729814117,
+          "samples": 744,
+          "model_profile": "extra_trees",
+          "train_samples": 16148,
+          "model_path": "models\\turbine_2_day_2.joblib",
+          "same_evaluation_rows": false
+        },
+        "improvement_vs_baseline": {
+          "wind_curve": {
+            "mae_reduction": 0.013362362567972352,
+            "mae_reduction_percent": 6.622979986538158,
+            "rmse_reduction_percent": 1.3724770537740794,
+            "r2_delta": 0.014624616667699541
+          },
+          "mean": {
+            "mae_reduction": 0.11080713132563624,
+            "mae_reduction_percent": 37.034181249765005,
+            "rmse_reduction_percent": 28.48456791188645,
+            "r2_delta": 0.4984820543086922
+          }
+        },
+        "interval": {
+          "method": "absolute_residual_quantile",
+          "label": "Empirical error range; not a guaranteed confidence interval",
+          "nominal_level": 0.9,
+          "validation_radius": 0.4732904398994909,
+          "calibration_period": "2025-12-01 / 2025-12-31",
+          "calibration_also_used_for_model_selection": true,
+          "evaluation_period": "2026-01-02 / 2026-01-31",
+          "coverage": 0.9291666666666667,
+          "mean_width": 0.7214880969407012,
+          "samples": 720,
+          "production_radius": 0.4210741627269779,
+          "production_calibration_period": "2026-01-02 / 2026-01-31",
+          "production_coverage": null,
+          "note": "January coverage uses December radius. February coverage is unknown without targets."
+        },
+        "available_from": "2025-12-31"
+      }
+    }
+  }
+}

@@ -59,3 +59,15 @@ def build_context_features(weather: pd.DataFrame, lead_days: int) -> pd.DataFram
         result["older_wind"] = weather.wind_speed_100m_previous_day2 / 3.6
         result["run_change"] = result.wind_100m_ms - result.older_wind
     return result
+
+
+def build_model_features(weather: pd.DataFrame, lead_days: int, mode: str) -> pd.DataFrame:
+    if mode == "basic":
+        return build_features(weather, lead_days)
+    if mode == "context":
+        return build_context_features(weather, lead_days)
+    if mode in ("advanced", "trajectory"):
+        from app.services.advanced_features import build_advanced_features
+
+        return build_advanced_features(weather, lead_days, trajectory=mode == "trajectory")
+    raise ValueError("Unknown model feature mode")

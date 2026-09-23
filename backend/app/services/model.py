@@ -21,12 +21,15 @@ MODEL_PROFILES = (*HISTOGRAM_PROFILES, "extra_trees")
 class ForecastEnsemble:
     """Weighted independent regressors, each with its own training window/features."""
 
-    def __init__(self, members, weights):
+    def __init__(self, members, weights, clip_members=False):
         self.members = members
         self.weights = weights
+        self.clip_members = clip_members
 
     def predict(self, features):
         predictions = [model.predict(features[columns]) for model, columns in self.members]
+        if getattr(self, "clip_members", False):
+            predictions = [np.clip(prediction, 0, 1) for prediction in predictions]
         return np.average(predictions, axis=0, weights=self.weights)
 
 

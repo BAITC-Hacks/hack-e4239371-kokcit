@@ -38,7 +38,31 @@ function App() {
   const [tab, setTab] = useState("forecast");
 
   const loadHistory = async () => {
-    try { setHistory(await api("/forecasts?limit=8")); } catch { setHistory([]); }
+    try {
+      const [jobs, forecasts] = await Promise.all([
+        api("/jobs?limit=8"),
+        api("/forecasts?limit=20"),
+      ]);
+      const records = jobs.map((item) => {
+        const request = item.request || {};
+        const forecast = item.kind === "forecast" && item.status === "completed"
+          ? forecasts.find((candidate) => (
+              candidate.turbine_id === request.turbine_id
+              && candidate.issue_date === request.issue_date
+              && candidate.horizon_hours === request.horizon_hours
+            ))
+          : null;
+        return { ...item, run_id: forecast?.run_id || null };
+      });
+      setHistory(records.length ? records : forecasts.map((item) => ({
+        ...item,
+        kind: "forecast",
+        status: "completed",
+        request: item,
+      })));
+    } catch {
+      setHistory([]);
+    }
   };
 
   const refreshDashboard = async () => {
@@ -137,9 +161,19 @@ function App() {
             </div>
 
             <div className="history">
-              <h3>Последние запуски</h3>
+              <h3>Задания агента</h3>
               {history.length === 0 && <p className="muted">История пока пуста</p>}
-              {history.map((item) => <button disabled={loading} className="history-row" key={item.run_id} onClick={() => openHistory(item.run_id)}><span>Т{item.turbine_id} · {item.horizon_hours} ч</span><time>{item.issue_date}</time></button>)}
+              {history.map((item) => {
+                const request = item.request || item;
+                const statusName = { completed: "Готово", failed: "Ошибка", running: "Выполняется", pending: "В очереди" }[item.status] || item.status;
+                return <div className={`history-item ${item.status}`} key={item.job_id || item.run_id}>
+                  <button disabled={loading || !item.run_id} className="history-row" onClick={() => item.run_id && openHistory(item.run_id)} title={item.error || statusName}>
+                    <span>{item.kind === "february" ? "Февраль" : `Т${request.turbine_id} · ${request.horizon_hours} ч`}</span>
+                    <time>{request.issue_date}</time>
+                  </button>
+                  <small>{statusName}{item.error ? ` · ${item.error}` : ""}</small>
+                </div>;
+              })}
             </div>
           </aside>
 

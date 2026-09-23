@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "model_version": "windflow-v3",
-    "selection": "December chooses each family's configuration and blend weight; January is a development-validation regression gate. Retain the previous model if neither MAE nor RMSE improves together.",
+    "model_version": "windflow-v2",
+    "selection": "December 2025 RMSE; January targets are not used for fitting or selection",
     "evaluation": "January: day 1 Jan 1-31 (744 hours), day 2 Jan 2-31 (720 hours). January 1 day 2 excluded because selection/calibration completed Dec 31, later than its Dec 30 issue.",
     "production_refit": "Through 2026-01-31, used only for forecasts issued from January 31",
     "features": "Archived weather forecasts and calendar only; no future measured wind/power",
@@ -25,25 +25,23 @@
     },
     "publication_time_verified": false,
     "january_seen_in_earlier_experiments": true,
-    "evaluation_caveat": "January is a development-validation period used for promotion checks; independent February quality requires February observations.",
-    "january_is_blind_test": false,
-    "optimization_report": "optimization_report.json"
+    "evaluation_caveat": "Current selection uses December only, but January was inspected in earlier development. It is not a newly sealed blind test."
   },
   "turbine_1": {
     "day_1": {
-      "mae": 0.14558065711054574,
-      "rmse": 0.20079745787918746,
-      "r2": 0.6456127884928922,
+      "mae": 0.14736687202722737,
+      "rmse": 0.20211009468225985,
+      "r2": 0.6409643016518843,
       "samples": 744,
-      "model_profile": "v3_smooth_blend",
-      "feature_mode": "advanced",
+      "model_profile": "ensemble",
+      "feature_mode": "context",
       "train_samples": 14798,
       "production_train_samples": 15542,
       "training_start": "2024-02-17 11:00:00",
       "trained_through": "2025-12-31",
       "validation_start": "2026-01-01",
       "validation_end": "2026-01-31",
-      "selection_period": "December 2025 tuning; January 2026 development-validation promotion gate",
+      "selection_period": "2025-12-01 / 2025-12-31",
       "baselines": {
         "wind_curve": {
           "mae": 0.17787658988495608,
@@ -58,69 +56,67 @@
           "samples": 744
         }
       },
-      "error_radius": 0.3404929635744636,
+      "error_radius": 0.3444922059309682,
       "model_path": "turbine_1_day_1.joblib",
       "validation_model_path": "validation/turbine_1_day_1.joblib",
       "target_r2": 0.8,
       "target_met": false,
       "previous_version": {
-        "mae": 0.14736687202722737,
-        "rmse": 0.20211009468225985,
-        "r2": 0.6409643016518843,
+        "mae": 0.16314634220444393,
+        "rmse": 0.21843888263000724,
+        "r2": 0.5806066754348211,
         "samples": 744,
-        "model_profile": "ensemble",
+        "model_profile": "accurate",
+        "train_samples": 14822,
+        "model_path": "models\\turbine_1_day_1.joblib",
         "same_evaluation_rows": true
       },
       "improvement_vs_baseline": {
         "wind_curve": {
-          "mae_reduction": 0.03229593277441034,
-          "mae_reduction_percent": 18.156370546173694,
-          "rmse_reduction_percent": 9.554946231241512,
-          "r2_delta": 0.07883268960683898
+          "mae_reduction": 0.030509717857728713,
+          "mae_reduction_percent": 17.15218280126758,
+          "rmse_reduction_percent": 8.96369618511711,
+          "r2_delta": 0.07418420276583115
         },
         "mean": {
-          "mae_reduction": 0.15510271931807174,
-          "mae_reduction_percent": 51.58340349915995,
-          "rmse_reduction_percent": 41.17654210180399,
-          "r2_delta": 0.669794320004715
+          "mae_reduction": 0.1533165044013901,
+          "mae_reduction_percent": 50.989351730187046,
+          "rmse_reduction_percent": 40.792006179204776,
+          "r2_delta": 0.6651458331637071
         }
       },
       "interval": {
         "method": "absolute_residual_quantile",
         "label": "Empirical error range; not a guaranteed confidence interval",
         "nominal_level": 0.9,
-        "validation_radius": 0.4767182082991222,
+        "validation_radius": 0.4743681105714478,
         "calibration_period": "2025-12-01 / 2025-12-31",
         "calibration_also_used_for_model_selection": true,
         "evaluation_period": "2026-01-01 / 2026-01-31",
-        "coverage": 0.9610215053763441,
-        "mean_width": 0.686903215522506,
+        "coverage": 0.9637096774193549,
+        "mean_width": 0.6891255382722852,
         "samples": 744,
-        "production_radius": 0.3404929635744636,
+        "production_radius": 0.3444922059309682,
         "production_calibration_period": "2026-01-01 / 2026-01-31",
         "production_coverage": null,
         "note": "January coverage uses December radius. February coverage is unknown without targets."
       },
-      "available_from": "2025-12-31",
-      "training_components": {
-        "previous_model": 14798,
-        "smooth": 8630
-      }
+      "available_from": "2025-12-31"
     },
     "day_2": {
-      "mae": 0.18897145310171204,
-      "rmse": 0.2414920126783274,
-      "r2": 0.4836699521888126,
+      "mae": 0.19088834740919003,
+      "rmse": 0.2455711585812598,
+      "r2": 0.4660795249037628,
       "samples": 720,
-      "model_profile": "v3_xgboost_blend",
-      "feature_mode": "trajectory",
+      "model_profile": "ensemble",
+      "feature_mode": "context",
       "train_samples": 14774,
       "production_train_samples": 15542,
       "training_start": "2024-02-17 11:00:00",
       "trained_through": "2025-12-30",
       "validation_start": "2026-01-02",
       "validation_end": "2026-01-31",
-      "selection_period": "December 2025 tuning; January 2026 development-validation promotion gate",
+      "selection_period": "2025-12-01 / 2025-12-31",
       "baselines": {
         "wind_curve": {
           "mae": 0.20142243945288676,
@@ -135,63 +131,61 @@
           "samples": 720
         }
       },
-      "error_radius": 0.4045883875207092,
+      "error_radius": 0.4163308819160469,
       "model_path": "turbine_1_day_2.joblib",
       "validation_model_path": "validation/turbine_1_day_2.joblib",
       "target_r2": 0.8,
       "target_met": false,
       "previous_version": {
-        "mae": 0.19088834740919003,
-        "rmse": 0.2455711585812598,
-        "r2": 0.4660795249037628,
-        "samples": 720,
-        "model_profile": "ensemble",
-        "same_evaluation_rows": true
+        "mae": 0.19570037852396746,
+        "rmse": 0.2582039615496089,
+        "r2": 0.41401375294615395,
+        "samples": 744,
+        "model_profile": "balanced",
+        "train_samples": 14798,
+        "model_path": "models\\turbine_1_day_2.joblib",
+        "same_evaluation_rows": false
       },
       "improvement_vs_baseline": {
         "wind_curve": {
-          "mae_reduction": 0.012450986351174725,
-          "mae_reduction_percent": 6.181528922494772,
-          "rmse_reduction_percent": 1.3928945589881558,
-          "r2_delta": 0.014690074637465966
+          "mae_reduction": 0.010534092043696736,
+          "mae_reduction_percent": 5.229850294887672,
+          "rmse_reduction_percent": -0.2727206541141891,
+          "r2_delta": -0.002900352647583815
         },
         "mean": {
-          "mae_reduction": 0.11035796886204813,
-          "mae_reduction_percent": 36.86840008511063,
-          "rmse_reduction_percent": 29.007478552080514,
-          "r2_delta": 0.5081469148207614
+          "mae_reduction": 0.10844107455457014,
+          "mae_reduction_percent": 36.22800386381634,
+          "rmse_reduction_percent": 27.808313205817658,
+          "r2_delta": 0.49055648753571157
         }
       },
       "interval": {
         "method": "absolute_residual_quantile",
         "label": "Empirical error range; not a guaranteed confidence interval",
         "nominal_level": 0.9,
-        "validation_radius": 0.4739830404069965,
+        "validation_radius": 0.48458164563619166,
         "calibration_period": "2025-12-01 / 2025-12-31",
         "calibration_also_used_for_model_selection": true,
         "evaluation_period": "2026-01-02 / 2026-01-31",
-        "coverage": 0.9458333333333333,
-        "mean_width": 0.7255663694535404,
+        "coverage": 0.9402777777777778,
+        "mean_width": 0.7372219033071005,
         "samples": 720,
-        "production_radius": 0.4045883875207092,
+        "production_radius": 0.4163308819160469,
         "production_calibration_period": "2026-01-02 / 2026-01-31",
         "production_coverage": null,
         "note": "January coverage uses December radius. February coverage is unknown without targets."
       },
-      "available_from": "2025-12-31",
-      "training_components": {
-        "previous_model": 14774,
-        "xgboost": 8630
-      }
+      "available_from": "2025-12-31"
     }
   },
   "turbine_2": {
     "day_1": {
-      "mae": 0.15119861932497186,
-      "rmse": 0.2043204116212991,
-      "r2": 0.6337420122694659,
+      "mae": 0.15247039290902686,
+      "rmse": 0.20713581352536858,
+      "r2": 0.6235788787153386,
       "samples": 744,
-      "model_profile": "v3_xgboost_blend",
+      "model_profile": "small",
       "feature_mode": "context",
       "train_samples": 16148,
       "production_train_samples": 16892,
@@ -199,7 +193,7 @@
       "trained_through": "2025-12-31",
       "validation_start": "2026-01-01",
       "validation_end": "2026-01-31",
-      "selection_period": "December 2025 tuning; January 2026 development-validation promotion gate",
+      "selection_period": "2025-12-01 / 2025-12-31",
       "baselines": {
         "wind_curve": {
           "mae": 0.1794222440093107,
@@ -214,54 +208,52 @@
           "samples": 744
         }
       },
-      "error_radius": 0.3454676117129849,
+      "error_radius": 0.355197061288249,
       "model_path": "turbine_2_day_1.joblib",
       "validation_model_path": "validation/turbine_2_day_1.joblib",
       "target_r2": 0.8,
       "target_met": false,
       "previous_version": {
-        "mae": 0.15247039290902686,
-        "rmse": 0.20713581352536858,
-        "r2": 0.6235788787153386,
+        "mae": 0.16548497209536817,
+        "rmse": 0.2231668971958038,
+        "r2": 0.5630586503520367,
         "samples": 744,
-        "model_profile": "small",
+        "model_profile": "balanced",
+        "train_samples": 16150,
+        "model_path": "models\\turbine_2_day_1.joblib",
         "same_evaluation_rows": true
       },
       "improvement_vs_baseline": {
         "wind_curve": {
-          "mae_reduction": 0.02822362468433884,
-          "mae_reduction_percent": 15.730281850044324,
-          "rmse_reduction_percent": 9.172085064804325,
-          "r2_delta": 0.07770668726228647
+          "mae_reduction": 0.026951851100283836,
+          "mae_reduction_percent": 15.021465843936966,
+          "rmse_reduction_percent": 7.920535683995644,
+          "r2_delta": 0.06754355370815912
         },
         "mean": {
-          "mae_reduction": 0.14922358757637882,
-          "mae_reduction_percent": 49.671290653083844,
-          "rmse_reduction_percent": 40.07446747708785,
-          "r2_delta": 0.6536554197329407
+          "mae_reduction": 0.14795181399232382,
+          "mae_reduction_percent": 49.24796189946991,
+          "rmse_reduction_percent": 39.248732754704406,
+          "r2_delta": 0.6434922861788134
         }
       },
       "interval": {
         "method": "absolute_residual_quantile",
         "label": "Empirical error range; not a guaranteed confidence interval",
         "nominal_level": 0.9,
-        "validation_radius": 0.493774489819915,
+        "validation_radius": 0.4794291009617522,
         "calibration_period": "2025-12-01 / 2025-12-31",
         "calibration_also_used_for_model_selection": true,
         "evaluation_period": "2026-01-01 / 2026-01-31",
-        "coverage": 0.9731182795698925,
-        "mean_width": 0.7103078201963782,
+        "coverage": 0.9663978494623656,
+        "mean_width": 0.6949188178644325,
         "samples": 744,
-        "production_radius": 0.3454676117129849,
+        "production_radius": 0.355197061288249,
         "production_calibration_period": "2026-01-01 / 2026-01-31",
         "production_coverage": null,
         "note": "January coverage uses December radius. February coverage is unknown without targets."
       },
-      "available_from": "2025-12-31",
-      "training_components": {
-        "previous_model": 16148,
-        "xgboost": 8617
-      }
+      "available_from": "2025-12-31"
     },
     "day_2": {
       "mae": 0.18839519362474821,
