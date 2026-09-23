@@ -99,7 +99,8 @@ backend — на [http://localhost:8000](http://localhost:8000).
 в репозиторий.
 
 <p align="center">
-  <a href="images/windflow-demo.mp4"><strong>▶ Смотреть видеодемонстрацию · 25 секунд</strong></a><br>
+  <img src="images/windflow-demo.gif" width="800" alt="WindFlow AI: расчёт прогноза, полный февраль и PDF-отчёт"><br>
+  <a href="images/windflow-demo.mp4"><strong>Скачать видео в полном качестве · 25 секунд</strong></a><br>
   <sub>Расчёт прогноза → полный февраль → PDF-отчёт</sub>
 </p>
 
